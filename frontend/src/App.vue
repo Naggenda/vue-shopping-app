@@ -3,5 +3,10 @@
 </script>
 
 <template>
-  <Navbar />
+  <div>
+    <Navbar />
+    <main>
+      <router-view />
+    </main>
+  </div>
 </template>
