@@ -1,7 +1,7 @@
 <template>
   <div class="products">
     <ProductCard
-      v-for="product in products"
+      v-for="product in productStore.filteredProducts"
       :key="product.id"
       :product="product"
     />
@@ -9,27 +9,10 @@
 </template>
 
 <script setup>
-import ProductCard from '../components/ProductCard.vue'
+import ProductCard from "../components/ProductCard.vue";
+import { useProductStore } from "../store/productStore.js";
+// import { computed } from "vue";
 
-const products = [
-  {
-    id: 1,
-    name: 'Laptop',
-    desc: 'This is German made',
-    price: 100000,
-    image: '💻'
-  },
-  {
-    id: 2,
-    name: 'Charger',
-    desc: 'High quality excellent charge',
-    price: 120000
-  },
-  {
-    id: 3,
-    name: 'Headphones',
-    desc: 'this produces 12sph',
-    price: 80000
-  }
-]
+const productStore = useProductStore();
+
 </script>

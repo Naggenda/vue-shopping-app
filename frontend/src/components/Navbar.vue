@@ -15,11 +15,7 @@
         <Search :size="20" />
       </button>
 
-      <RouterLink
-        to="/cart"
-        aria-label="Shopping Cart"
-        class="icon-link"
-      >
+      <RouterLink to="/cart" aria-label="Shopping Cart" class="icon-link">
         <ShoppingCart :size="20" />
       </RouterLink>
 
@@ -35,19 +31,22 @@
       <Search :size="22" />
 
       <input
-        v-model="searchQuery"
+        v-model="productStore.searchQuery"
         type="text"
         placeholder="Search products..."
         autofocus
       />
-
-      <button
-        @click="openSearch"
-        class="close-search"
-        aria-label="Close Search"
-      >
+      <button @click="openSearch" class="close-search" aria-label="Close Search">
         <X :size="22" />
       </button>
+    </div>
+
+    <div v-if="productStore.searchQuery" class="search-results">
+      <ProductCard
+        v-for="product in productStore.filteredProducts"
+        :key="product.id"
+        :product="product"
+      />
     </div>
   </div>
 </template>
@@ -55,9 +54,11 @@
 <script setup>
 import { Search, ShoppingCart, User, X } from "lucide-vue-next";
 import { ref } from "vue";
+import { useProductStore } from "../store/productStore.js";
+import ProductCard from "../components/ProductCard.vue";
 
+const productStore = useProductStore();
 const isSearchOpen = ref(false);
-const searchQuery = ref('');
 
 const openSearch = () => {
   isSearchOpen.value = !isSearchOpen.value;
@@ -165,6 +166,7 @@ const openSearch = () => {
   background-color: rgba(0, 0, 0, 0.45);
 
   display: flex;
+  flex-direction: column;
 
   justify-content: center;
   align-items: center;
@@ -173,6 +175,26 @@ const openSearch = () => {
 }
 
 /* Search Box */
+
+.search-results {
+  width: min(600px, 90%);
+  max-height: 500px;
+
+  margin-top: 15px;
+
+  padding: 15px;
+
+  background: white;
+
+  border-radius: 10px;
+
+  overflow-y: auto;
+
+  display: grid;
+  gap: 15px;
+
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+}
 
 .search-box {
   width: min(600px, 90%);
